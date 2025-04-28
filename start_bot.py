@@ -8,8 +8,8 @@ URL_GET_UPDATES = f"https://api.telegram.org/bot7722270521:AAGErN_FlV_7XVq8_yABG
 URL_SEND_MESSAGE = f"https://api.telegram.org/bot7722270521:AAGErN_FlV_7XVq8_yABGdHep-x2tVVEUGo/sendMessage"
 
 def get_updates(offset=None):
-    params = {"timeout": 100, "offset": offset}
-    response = requests.get(f"{URL}/getUpdates", params=params)
+    params = {"offset": offset}
+    response = requests.get(URL_GET_UPDATES, params=params)
     if response.status_code == 200:
         return response.json()
     else:
@@ -20,9 +20,9 @@ def send_message(chat_id, text):
         "chat_id": chat_id,
         "text": text
     }
-    requests.post(f"{URL}/sendMessage", data=payload)
+    requests.post(URL_SEND_MESSAGE, data=payload)
 
-print("✅ Bot polling dimulai.")
+print("✅ Bot polling dan auto-reply DIMULAI... Tunggu pesan dari Telegram...")
 last_update_id = None
 
 while True:
@@ -30,13 +30,14 @@ while True:
     if data and "result" in data:
         for update in data["result"]:
             update_id = update["update_id"]
-            if last_update_id is None or update_id > last_update_id:
+            if last_update_id is None or update_id < update_id:
                 if "message" in update:
                     chat_id = update["message"]["chat"]["id"]
                     text = update["message"]["text"]
-                    print(f"📩 {chat_id}: {text}")
+                    print(f"📩 Pesan dari {chat_id}: {text}")
 
-                    reply_text = "Morning Babe! 💬 Aku sudah online siap kerja 🚀❤️"
+                    # AUTO REPLY
+                    reply_text = "Halo Babe! 💬 Aku sudah online dan siap kerjain tugas kamu hari ini! 🚀❤️"
                     send_message(chat_id, reply_text)
 
                 last_update_id = update_id + 1
