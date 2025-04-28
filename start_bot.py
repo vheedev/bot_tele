@@ -40,5 +40,11 @@ while True:
                     reply_text = "Halo Babe! 💬 Aku sudah online dan siap kerjain tugas kamu hari ini! 🚀❤️"
                     send_message(chat_id, reply_text)
 
+                    # Keyword detection for "start"
+                    if "start" in text.lower():
+                        print(f"🚀 Keyword 'start' terdeteksi dari {chat_id}! Mulai automation!")
+                        # Placeholder trigger action
+                        # Replace with actual automation later
+
                 last_update_id = update_id + 1
     time.sleep(3)
